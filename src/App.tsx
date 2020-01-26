@@ -1,13 +1,13 @@
 import React from "react";
 import { Provider } from "react-redux";
 
-import store from "./store/rootStore";
-import { Text } from "react-native";
+import rootStore from "./store/rootStore";
+import Form from "./containers/Form";
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <Text>Hello PiggyBank</Text>
+    <Provider store={rootStore}>
+      <Form />
     </Provider>
   );
 };
