@@ -1,23 +1,25 @@
 import * as actionTypes from "./actionTypes";
-import { getExpenseTypeWs, IExpenseType } from "../../api/index";
+import { getExpenseTypeWs, IExpenseType, IRequestError } from "../../api/index";
 
-export const getAllExpenseTypeStartAction = (): actionTypes.IExpenseTypes => ({
-  type: actionTypes.EXPENSE_TYPE_GET_ALL_START
+export const expenseTypeStartAction = (): actionTypes.IExpenseTypes => ({
+  type: actionTypes.EXPENSE_TYPE_ACTION_START
 });
 
-export const getAllExpenseTypeSuccessAction = (data): actionTypes.IExpenseTypes => ({
-  type: actionTypes.EXPENSE_TYPE_GET_ALL_SUCCESS,
-  data
-});
+export const expenseTypeFailureAction = 
+  (error: IRequestError): actionTypes.IExpenseTypes => ({
+    type: actionTypes.EXPENSE_TYPE_ACTION_FAILURE,
+    error
+  });
 
-export const getAllExpenseTypeFailureAction = (error): actionTypes.IExpenseTypes => ({
-  type: actionTypes.EXPENSE_TYPE_GET_ALL_FAILURE,
-  error
-});
+export const getAllExpenseTypeSuccessAction = 
+  (data: IExpenseType[]): actionTypes.IExpenseTypes => ({
+    type: actionTypes.EXPENSE_TYPE_GET_ALL_SUCCESS,
+    data
+  });
 
-export const getExpenseTypeThunk =() => {
+export const getExpenseTypeThunk = () => {
   return dispatch => {
-    dispatch(getAllExpenseTypeStartAction());
+    dispatch(expenseTypeStartAction());
     getExpenseTypeWs()
       .then(r => {
         const expenseTypes: IExpenseType[] = Object.keys(r.data).map(key => ({
@@ -28,7 +30,7 @@ export const getExpenseTypeThunk =() => {
         dispatch(getAllExpenseTypeSuccessAction(expenseTypes));
       })
       .catch(e => {
-        dispatch(getAllExpenseTypeFailureAction(e));
+        dispatch(expenseTypeFailureAction(e));
       });
   }
 };
