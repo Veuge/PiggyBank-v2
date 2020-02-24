@@ -18,11 +18,17 @@ export default reducer = (
   action: actionTypes.IExpenseTypes
 ): IExpenseTypeState => {
   switch(action.type) {
-    case actionTypes.EXPENSE_TYPE_GET_ALL_START: {
+    case actionTypes.EXPENSE_TYPE_ACTION_START: {
       return {
         ...state,
-        loading: true,
-        what: "xxx"
+        loading: true
+      }
+    }
+    case actionTypes.EXPENSE_TYPE_ACTION_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        error: action.error
       }
     }
     case actionTypes.EXPENSE_TYPE_GET_ALL_SUCCESS: {
@@ -32,11 +38,14 @@ export default reducer = (
         expenseTypes: action.data
       }
     }
-    case actionTypes.EXPENSE_TYPE_GET_ALL_FAILURE: {
+    case actionTypes.EXPENSE_TYPE_ADD_NEW_SUCCESS: {
       return {
         ...state,
         loading: false,
-        error: action.error
+        expenseTypes: [
+          ...state.expenseTypes,
+          action.data
+        ]
       }
     }
     default: {

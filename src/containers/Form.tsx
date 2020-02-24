@@ -1,18 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
   Text,
   TextStyle,
+  TouchableOpacity,
   View,
   ViewStyle
 } from "react-native";
 import { connect } from "react-redux";
 
-import { getExpenseTypeThunk } from "../store/actions/expenseTypeAction";
+import { getExpenseTypeThunk, addExpenseTypeThunk } from "../store/actions/expenseTypeAction";
+import { IExpenseType } from "../api";
 
 interface IProps {
-  doGetExpenseTypes: () => void
+  doGetExpenseTypes: () => void;
+  doAddExpenseType: (newType: IExpenseType) => void;
 }
 
 interface IFormStyle {
@@ -22,9 +25,16 @@ interface IFormStyle {
 }
 
 const Form: React.FunctionComponent<IProps> = (props) => {
+  const [newExpenseType, setNewExpenseType] = useState("trufi");
+
   useEffect(() => {
     props.doGetExpenseTypes()
-  }, [])
+  }, []);
+
+  const addNewExpenseType = () => {
+    const et: IExpenseType = { name: newExpenseType }
+    props.doAddExpenseType(et);
+  }
 
   return (
     <ScrollView>
@@ -35,6 +45,19 @@ const Form: React.FunctionComponent<IProps> = (props) => {
         <Text>Liquid Salary</Text>
         <Text>Another thing</Text>
       </View>
+      <TouchableOpacity
+        style={{
+          height: 30,
+          borderWidth: 1,
+          borderColor: "black",
+          borderRadius: 4,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        onPress={addNewExpenseType}
+      >
+        <Text>Add new expense type!</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -53,5 +76,6 @@ const FormStyle = StyleSheet.create<IFormStyle>({
 });
 
 export default connect(null, dispatch => ({
-  doGetExpenseTypes: () => dispatch(getExpenseTypeThunk())
+  doGetExpenseTypes: () => dispatch(getExpenseTypeThunk()),
+  doAddExpenseType: newExpenseType => dispatch(addExpenseTypeThunk(newExpenseType))
 }))(Form);
