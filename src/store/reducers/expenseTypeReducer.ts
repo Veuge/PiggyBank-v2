@@ -38,6 +38,16 @@ export default reducer = (
         expenseTypes: action.data
       }
     }
+    case actionTypes.EXPENSE_TYPE_ADD_NEW_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        expenseTypes: [
+          ...state.expenseTypes,
+          action.data
+        ]
+      }
+    }
     default: {
       return state;
     }

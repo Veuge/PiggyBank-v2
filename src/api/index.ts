@@ -4,5 +4,6 @@ export {
 
 export {
   IExpenseType,
-  getExpenseTypeWs
+  getExpenseTypeWs,
+  postExpenseTypeWs
 } from "../api/expense-type/expense-type";
