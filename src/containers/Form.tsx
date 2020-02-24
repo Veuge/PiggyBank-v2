@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -7,6 +7,13 @@ import {
   View,
   ViewStyle
 } from "react-native";
+import { connect } from "react-redux";
+
+import { getExpenseTypeThunk } from "../store/actions/expenseTypeAction";
+
+interface IProps {
+  doGetExpenseTypes: () => void
+}
 
 interface IFormStyle {
   mainContainer: ViewStyle;
@@ -14,9 +21,11 @@ interface IFormStyle {
   screenTitle: TextStyle;
 }
 
-const Form: React.FunctionComponent<{
+const Form: React.FunctionComponent<IProps> = (props) => {
+  useEffect(() => {
+    props.doGetExpenseTypes()
+  }, [])
 
-}> = ({}) => {
   return (
     <ScrollView>
       <View style={FormStyle.mainContainer}>
@@ -43,4 +52,6 @@ const FormStyle = StyleSheet.create<IFormStyle>({
   }
 });
 
-export default Form;
+export default connect(null, dispatch => ({
+  doGetExpenseTypes: () => dispatch(getExpenseTypeThunk())
+}))(Form);
