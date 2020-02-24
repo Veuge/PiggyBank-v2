@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
+import expenseTypeReducer from "./expenseTypeReducer";
 
 const initialState = {
   baseSalary: 0,
-  liquidSalary: 0,
-  
+  liquidSalary: 0
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,5 +15,6 @@ const reducer = (state = initialState, action) => {
 }
 
 export default combineReducers({
-  state: reducer
+  init: reducer,
+  expenseType: expenseTypeReducer
 });
